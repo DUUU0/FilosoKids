@@ -15,7 +15,10 @@ import { SendFormController } from "./controllers/form/SendFormController";
 import { CreateQuestionController } from "./controllers/question/CreateQuestionController";
 import { UpdateQuestionController } from "./controllers/question/UpdateQuestionController";
 import { RemoveQuestionController } from "./controllers/question/RemoveQuestionController";
-import { CreateAlternativieController } from "./controllers/alternativie/CreateAlternativieController";
+import { CreateAlternativeController } from "./controllers/alternative/CreateAlternativeController";
+import { UpdateAlternativeController } from "./controllers/alternative/UpdateAlternativeController";
+import { RemoveAlternativeController } from "./controllers/alternative/RemoveAlternativeController";
+import { ListByQuestionController } from "./controllers/alternative/ListByQuestionController";
 
 const router = Router()
 
@@ -40,6 +43,9 @@ router.put('/updateQuestion', isAuthenticated, isAdmin, new UpdateQuestionContro
 router.delete('/deleteQuestion', isAuthenticated, isAdmin, new RemoveQuestionController().handle)
 
 // -- ROTAS ALTERNATIVIES --
-router.post('/createAlternativie', isAuthenticated, isAdmin, new CreateAlternativieController().handle)
+router.post('/createAlternative', isAuthenticated, isAdmin, new CreateAlternativeController().handle)
+router.put('/updateAlternative', isAuthenticated, isAdmin, new UpdateAlternativeController().handle)
+router.delete('/deleteAlternative', isAuthenticated, isAdmin, new RemoveAlternativeController().handle)
+router.get('/listByQuestion', isAuthenticated, new ListByQuestionController().handle)
 
 export { router }

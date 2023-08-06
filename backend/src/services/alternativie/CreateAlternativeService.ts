@@ -1,16 +1,16 @@
 import prismaClient from "../../prisma";
 
-interface AlternativieRequest {
+interface AlternativeRequest {
     letter: string
     text: string
     true_or_false: boolean
     question_id: string
 }
 
-class CreatealternativieService {
-    async execute({ letter, text, true_or_false, question_id }: AlternativieRequest) {
+class CreatealternativeService {
+    async execute({ letter, text, true_or_false, question_id }: AlternativeRequest) {
 
-        const alternativie = await prismaClient.alternative.create({
+        const alternative = await prismaClient.alternative.create({
             data: {
                 letter,
                 text,
@@ -26,9 +26,9 @@ class CreatealternativieService {
             }
         })
 
-        return { alternativie }
+        return { alternative }
 
     }
 }
 
-export { CreatealternativieService }
+export { CreatealternativeService }

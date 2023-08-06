@@ -72,7 +72,7 @@ model Alternative {
   question    Question @relation(fields: [question_id], references: [id])
   question_id String
 
-  @@map("alternativies")
+  @@map("alternatives")
 }
 
 model Achievement {
