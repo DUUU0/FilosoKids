@@ -1,6 +1,7 @@
 import prismaClient from "../../prisma";
 
 interface QuestionRequest {
+    text: string
     text_if_correct: string
     text_if_incorrect: string
     number: number
@@ -9,10 +10,11 @@ interface QuestionRequest {
     image_bottom_right: string
     image_bottom_left: string
     phase_id: string
+    list_alternatives: []
 }
 
 class CreateQuestionService {
-    async execute({ text_if_correct, text_if_incorrect, number, avatar, image_upper_right, image_bottom_right, image_bottom_left, phase_id }: QuestionRequest) {
+    async execute({ text, text_if_correct, text_if_incorrect, number, avatar, image_upper_right, image_bottom_right, image_bottom_left, phase_id, list_alternatives }: QuestionRequest) {
 
         const questionAlreadyExists = await prismaClient.question.findFirst({
             where: {
@@ -26,6 +28,7 @@ class CreateQuestionService {
 
         const question = await prismaClient.question.create({
             data: {
+                text,
                 text_if_correct,
                 text_if_incorrect,
                 number,
@@ -33,20 +36,19 @@ class CreateQuestionService {
                 image_upper_right,
                 image_bottom_right,
                 image_bottom_left,
+                already_answered: false,
                 phase_id,
+                alternatives: {
+                    createMany: {
+                        data: list_alternatives
+                    }
+                }
             },
-            select: {
-                id: true,
-                text_if_correct: true,
-                text_if_incorrect: true,
-                number: true,
-                avatar: true,
-                image_upper_right: true,
-                image_bottom_right: true,
-                image_bottom_left: true,
-                phase_id: true
+            include: {
+                alternatives: true
             }
         })
+
 
         return { question }
 
@@ -54,3 +56,4 @@ class CreateQuestionService {
 }
 
 export { CreateQuestionService }
+

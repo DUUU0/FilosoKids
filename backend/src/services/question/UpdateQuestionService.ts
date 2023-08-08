@@ -9,10 +9,11 @@ interface QuestionRequest {
     image_upper_right: string
     image_bottom_right: string
     image_bottom_left: string
+    phase_id: string
 }
 
 class UpdateQuestionService {
-    async execute({ question_id, text_if_correct, text_if_incorrect, number, avatar, image_upper_right, image_bottom_right, image_bottom_left }: QuestionRequest) {
+    async execute({ question_id, text_if_correct, text_if_incorrect, number, avatar, image_upper_right, image_bottom_right, image_bottom_left, phase_id }: QuestionRequest) {
 
         const questionAlreadyExists = await prismaClient.question.findFirst({
             where: {
@@ -35,11 +36,14 @@ class UpdateQuestionService {
                 avatar: avatar,
                 image_upper_right: image_upper_right,
                 image_bottom_right: image_bottom_right,
-                image_bottom_left: image_bottom_left
+                image_bottom_left: image_bottom_left,
+                phase_id
             }
+
         })
 
         return question
+
     }
 }
 

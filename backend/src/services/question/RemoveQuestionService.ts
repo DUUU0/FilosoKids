@@ -9,7 +9,7 @@ class RemoveQuestionService {
 
         const question = await prismaClient.question.delete({
             where: {
-                id: question_id
+                id: question_id,
             }
         })
 

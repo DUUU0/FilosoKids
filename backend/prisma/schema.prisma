@@ -17,9 +17,8 @@ model User {
   nickname String  @unique
   is_admin Boolean
 
-  forms        Form[]
-  questions    User_has_Questions[]
-  achievements User_has_Achievements[]
+  forms     Form[]
+  questions User_has_Questions[]
 
   @@map("users")
 }
@@ -29,14 +28,14 @@ model Phase {
   number Int    @unique
   name   String
 
-  questions    Question[]
-  achievements Achievement[]
+  questions Question[]
 
   @@map("phases")
 }
 
 model Question {
   id                 String  @id @default(uuid())
+  text               String
   text_if_correct    String
   text_if_incorrect  String
   number             Int     @unique
@@ -44,12 +43,13 @@ model Question {
   image_upper_right  String?
   image_bottom_right String?
   image_bottom_left  String?
+  already_answered   Boolean
 
-  phase    Phase  @relation(fields: [phase_id], references: [id])
+  phase    Phase  @relation(fields: [phase_id], references: [id], onDelete: Cascade)
   phase_id String
 
-  users         User_has_Questions[]
-  alternativies Alternative[]
+  users        User_has_Questions[]
+  alternatives Alternative[]
 
   @@map("questions")
 }
@@ -61,6 +61,7 @@ model User_has_Questions {
   question_id String
 
   @@id([user_id, question_id])
+  @@map("user_has_questions")
 }
 
 model Alternative {
@@ -69,30 +70,10 @@ model Alternative {
   text          String
   true_or_false Boolean
 
-  question    Question @relation(fields: [question_id], references: [id])
+  question    Question @relation(fields: [question_id], references: [id], onDelete: Cascade)
   question_id String
 
   @@map("alternatives")
-}
-
-model Achievement {
-  id String @id @default(uuid())
-
-  phase    Phase  @relation(fields: [phase_id], references: [id])
-  phase_id String
-
-  users User_has_Achievements[]
-
-  @@map("achievements")
-}
-
-model User_has_Achievements {
-  user           User        @relation(fields: [user_id], references: [id])
-  user_id        String
-  achievement    Achievement @relation(fields: [achievement_id], references: [id])
-  achievement_id String
-
-  @@id([user_id, achievement_id])
 }
 
 model Form {

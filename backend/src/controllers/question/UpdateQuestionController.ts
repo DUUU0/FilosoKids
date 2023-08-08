@@ -4,7 +4,7 @@ import { UpdateQuestionService } from "../../services/question/UpdateQuestionSer
 class UpdateQuestionController {
     async handle(req: Request, res: Response) {
 
-        const { question_id, text_if_correct, text_if_incorrect, number, avatar, image_upper_right, image_bottom_right, image_bottom_left } = req.body
+        const { question_id, text_if_correct, text_if_incorrect, number, avatar, image_upper_right, image_bottom_right, image_bottom_left, phase_id } = req.body
 
         const updateQuestionService = new UpdateQuestionService()
 
@@ -16,7 +16,8 @@ class UpdateQuestionController {
             avatar,
             image_upper_right,
             image_bottom_right,
-            image_bottom_left
+            image_bottom_left,
+            phase_id
         })
 
         return res.json(question)
