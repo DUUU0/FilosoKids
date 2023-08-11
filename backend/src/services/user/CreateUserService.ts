@@ -11,10 +11,6 @@ interface UserRequest {
 class CreateUserService {
     async execute({ name, password, nickname, isAdmin }: UserRequest) {
 
-        if (!nickname) {
-            throw new Error("Apelido incorreto!")
-        }
-
         const userAlreadyExists = await prismaClient.user.findFirst({
             where: {
                 nickname: nickname

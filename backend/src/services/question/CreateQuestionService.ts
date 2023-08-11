@@ -49,7 +49,6 @@ class CreateQuestionService {
             }
         })
 
-
         return { question }
 
     }
