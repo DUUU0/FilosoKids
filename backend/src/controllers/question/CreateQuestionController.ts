@@ -17,7 +17,7 @@ class CreateQuestionController {
             text,
             text_if_correct,
             text_if_incorrect,
-            number: 99,
+            number,
             avatar,
             image_upper_right,
             image_bottom_right,
