@@ -1,0 +1,35 @@
+body{
+    background-color: var(--blue-500);
+}
+
+.containerCenter{
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+
+    h1{
+        color: var(--brown);
+    }
+}
+
+.login{
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+
+    form{
+        display: flex;
+        flex-direction: column;
+      }
+}
+
+.button {
+    justify-content: center;
+    padding-top: 2rem;
+    text-align: center;
+}

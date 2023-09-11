@@ -3,6 +3,7 @@ import { CreateUserService } from "../../services/user/CreateUserService";
 
 class CreateUserController {
     async handle(req: Request, res: Response) {
+
         const { name, nickname, password, isAdmin } = req.body
 
         const createUserService = new CreateUserService()

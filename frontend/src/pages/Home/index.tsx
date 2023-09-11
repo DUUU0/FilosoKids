@@ -1,6 +1,16 @@
+import Button from "../../components/Button"
+
+import styles from './styles.module.scss'
+
 function Home() {
     return (
-        <h1>ewadwa</h1>
+
+        <main className={styles.main}>
+            <div className={styles.button}>
+                <Button>Jogar</Button>
+            </div>
+        </main>
+
     )
 }
 

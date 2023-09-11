@@ -1,0 +1,78 @@
+.headerContainer {
+    height: 5rem;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--blue-700);
+    max-width: 100%;
+}
+
+.headerContent {
+    padding: 1rem 1rem;
+    display: flex;
+    align-items: center;
+
+    img {
+        cursor: pointer;
+    }
+
+    span {
+        font-size: 1.5rem;
+        padding: 0 0.5rem;
+        display: inline-block;
+        position: relative;
+    }
+
+}
+
+.headerInformation {
+    padding: 0.5rem;
+    position: absolute;
+    width: 16rem;
+    left: 50%;
+    margin-left: -8rem;
+
+    span {     
+        position: absolute;
+        width: 5rem;
+        left: 50%;
+        margin-left: -2.5rem; 
+        font-size: 1.3rem;
+        vertical-align: middle;
+    }
+
+    .progressBarContainer {
+        padding-top: 2rem;
+
+        .backProgressBar {
+            position: absolute;
+            height: 1.3rem;
+            background-color: var(--white);
+            width: 15rem;
+            border-radius: 1rem;
+            left: 50%;
+            margin-left: -7.5rem;
+
+            .progressBar {
+                position: absolute;
+                height: 1rem;
+                background-color: var(--brown);
+                width: 14.5rem;
+                border-radius: 1rem;
+                left: 50%;
+                margin-left: -7.25rem;
+                bottom: 50%;
+                margin-bottom: -0.5rem;
+            }
+        }
+    }
+}
+
+.headerNav {
+    height: 5rem;
+    padding: 1rem 1rem;
+    align-items: center;
+
+    img {
+        cursor: pointer;
+    }
+}
