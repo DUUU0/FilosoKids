@@ -8,6 +8,7 @@ import Input from '../../components/Input'
 import { setupAPIClient } from '../../services/api'
 
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 function SignUp() {
 
@@ -18,6 +19,8 @@ function SignUp() {
     const [password,  setPassword] = useState('')
 
     const [confirmPassword, setConfirmPassword] = useState('')
+
+    const navigate = useNavigate()
 
     async function handleRegister(e: FormEvent) {
         e.preventDefault()
@@ -34,11 +37,16 @@ function SignUp() {
 
         const apiClient = setupAPIClient()
 
-        await apiClient.post('/createUser', {
+        const response = await apiClient.post('/createUser', {
             name: name,
             nickname: nickname,
-            password: password,
+            password: password
         })
+
+        if (response) {
+            navigate("/")
+            toast.success("Cadastrado com sucesso!")
+        }
     }
 
     return (

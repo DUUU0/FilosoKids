@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 90px 90px 90px 90px;
+}
+
+.left{
+   flex-direction: column;
+   padding: 90px ;
+   
+}
+
+.right{
+    flex-direction: column;
+}
+

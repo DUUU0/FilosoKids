@@ -1,4 +1,5 @@
 import Button from "../../components/Button"
+import { Link } from "react-router-dom"
 
 import styles from './styles.module.scss'
 
@@ -7,7 +8,7 @@ function Home() {
 
         <main className={styles.main}>
             <div className={styles.button}>
-                <Button>Jogar</Button>
+                <Link to='questions'><Button>Jogar</Button></Link>
             </div>
         </main>
 

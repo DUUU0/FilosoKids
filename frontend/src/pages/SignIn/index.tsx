@@ -1,36 +1,47 @@
 import styles from './styles.module.scss'
 
-import { useState, FormEvent, useContext } from 'react'
+import { useState, FormEvent, useContext, useEffect } from 'react'
 
 import Button from '../../components/Button'
 import Input from '../../components/Input'
 
-import { AuthContext } from '../../contexts/AuthContext'
-
 import { toast } from 'react-toastify'
 
-
+import UserService from '../../services/UserService'
+import { useNavigate } from 'react-router-dom'
 
 function SignIn() {
 
-    const { signIn } = useContext(AuthContext)
+    const navigate = useNavigate()
+
+    const userService = new UserService()
+
     const [nickname, setNickname] = useState('')
+
     const [password, setPassword] = useState('')
 
     async function handleLogin(e: FormEvent) {
         e.preventDefault()
 
-        if (nickname == '' || password == '') {
-            toast.warning("Preencha todos os campos!")
-            return
-        }
-
-        let data = {
+        const formulario = {
             nickname,
             password
         }
 
-        await signIn(data)
+        const response = await userService.login(formulario)
+
+        if (response.tutorial_completed) {
+            if (response.isAdmin) {
+                toast.success("Logado com sucesso!")
+                navigate("/homeAdmin")
+            } else {
+                toast.success("Logado com sucesso!")
+                navigate("/")
+            }
+        } else {
+            toast.success("Logado com sucesso!")
+            navigate("/bemVindo")
+        }
 
     }
 
