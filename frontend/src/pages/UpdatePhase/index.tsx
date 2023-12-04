@@ -1,17 +1,18 @@
 import { FormEvent, useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { setupAPIClient } from "../../services/api"
 import Input from "../../components/Input"
 import { toast } from "react-toastify"
 import Button from "../../components/Button"
 
+import styles from './styles.module.scss'
 
 function UpdatePhase() {
 
     const { id } = useParams()
 
     const [name, setName] = useState('')
-    const [number, setNumber] = useState(0)
+    const [number, setNumber] = useState<number | undefined>(undefined)
 
     const apiClient = setupAPIClient()
 
@@ -33,6 +34,10 @@ function UpdatePhase() {
     async function handleUpdate(e: FormEvent) {
         e.preventDefault()
 
+        if (name === "" || number === undefined) {
+            return toast.warning("Preencha todos os campos!")
+        }
+
         const response = await apiClient.put(`/updatePhase/${id}`, {
             name: name,
             number: number
@@ -46,25 +51,39 @@ function UpdatePhase() {
 
     return (
         <>
-            <h1>Editar</h1>
+            <main className={styles.container}>
 
-            <form onSubmit={handleUpdate}> 
+                <h1>Editar Fase</h1>
 
-                <Input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
+                <hr color='black'></hr>
 
-                <Input
-                    type="text"
-                    value={number}
-                    onChange={(e) => setNumber(parseInt(e.target.value))}
-                />
+                <div className={styles.createPhase}>
+                    <form onSubmit={handleUpdate}>
 
-                <Button type='submit'>Cadastrar</Button>
+                        <Input
+                            placeholder='Digite o nome...'
+                            type='text'
+                            value={name}
+                            onChange={(e) => setName(e.target.value)} />
 
-            </form>
+                        <Input
+                            placeholder='Digite o número...'
+                            type='number'
+                            value={number}
+                            onChange={(e) => setNumber(parseInt(e.target.value))} />
+
+                        <div className={styles.button}>
+                            <Button type='submit'>Editar</Button>
+                        </div>
+
+                        <div className={styles.buttonSubmit}>
+                            <Link to="/homeAdmin/updateRemovePhase"><Button>Voltar</Button></Link>
+                        </div>
+
+                    </form>
+                </div>
+
+            </main>
 
         </>
     )

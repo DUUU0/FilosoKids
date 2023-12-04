@@ -4,7 +4,7 @@ import { CreateUserService } from "../../services/user/CreateUserService";
 class CreateUserController {
     async handle(req: Request, res: Response) {
 
-        const { name, nickname, password, isAdmin } = req.body
+        const { name, nickname, password, isAdmin, tutorial_concluded } = req.body
 
         const createUserService = new CreateUserService()
 
@@ -12,7 +12,8 @@ class CreateUserController {
             name,
             nickname,
             password,
-            isAdmin
+            isAdmin,
+            tutorial_concluded
         })
 
         return res.json(user)

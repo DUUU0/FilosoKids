@@ -4,7 +4,7 @@ import { ListQuestionService } from "../../services/question/ListQuestionService
 class ListQuestionController {
     async handle(req: Request, res: Response) {
 
-        const { question_id } = req.body
+        const question_id = req.params.id
 
         const listQuestionService = new ListQuestionService()
 

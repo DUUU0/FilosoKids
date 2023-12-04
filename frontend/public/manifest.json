@@ -3,7 +3,7 @@
   "short_name": "FilosoKids",
   "theme_color": "#1E7FB3",
   "background_color": "#45BEFF",
-  "display": "browser",
+  "display": "fullscreen",
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/",

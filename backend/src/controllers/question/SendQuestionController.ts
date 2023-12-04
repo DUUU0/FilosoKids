@@ -4,7 +4,9 @@ import { SendQuestionService } from "../../services/question/SendQuestionService
 class SendQuestionController {
     async handle(req: Request, res: Response) {
 
-        const { user_id, question_id } = req.body
+        const question_id = req.params.id
+
+        const { user_id } = req.body
 
         const sendQuestionService = new SendQuestionService()
 

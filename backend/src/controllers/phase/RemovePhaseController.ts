@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 class RemovePhaseController {
     async handle(req: Request, res: Response) {
 
-        const { phase_id } = req.body
+        const phase_id = req.params.id
 
         const removePhaseService = new RemovePhaseService()
 

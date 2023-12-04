@@ -8,6 +8,9 @@ class PhaseListService {
                 id: true,
                 name: true,
                 number: true
+            },
+            orderBy: {
+                number: "asc"
             }
         })
 

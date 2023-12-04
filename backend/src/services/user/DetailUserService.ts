@@ -11,7 +11,8 @@ class DetailUserService {
                 id: true,
                 name: true,
                 nickname: true,
-                is_admin: true
+                is_admin: true,
+                tutorial_completed: true
             }
         })
 

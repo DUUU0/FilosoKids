@@ -4,7 +4,9 @@ import { UptadePhaseService } from "../../services/phase/UptadePhaseService";
 class UpdatePhaseController {
     async handle(req: Request, res: Response) {
 
-        const { phase_id, name, number } = req.body
+        const phase_id = req.params.id
+
+        const { name, number } = req.body
 
         const updatePhaseService = new UptadePhaseService()
 

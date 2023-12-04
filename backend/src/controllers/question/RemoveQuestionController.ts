@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 class RemoveQuestionController {
     async handle(req: Request, res: Response) {
 
-        const { question_id } = req.body
+        const question_id = req.params.id
 
         const removeQuestionService = new RemoveQuestionService()
 

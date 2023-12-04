@@ -41,8 +41,10 @@ class AuthUserService {
             id: user.id,
             nickname: user.nickname,
             isAdmin: user.is_admin,
-            token: token
+            token: token,
+            tutorial_completed: user.tutorial_completed
         }
+
     }
 }
 

@@ -1,8 +1,13 @@
-body{
+body {
     background-color: var(--blue-500);
 }
 
-.containerCenter{
+hr {
+    width: 20rem;
+    margin-top: 1rem;
+}
+
+.containerCenter {
     min-height: 80vh;
     display: flex;
     justify-content: center;
@@ -10,26 +15,44 @@ body{
     flex-direction: column;
     width: 100%;
 
-    h1{
+    h1 {
         color: var(--brown);
     }
 }
 
-.login{
-    margin-top: 2rem;
+.login {
+    margin-top: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
-
-    form{
+    padding: 1rem;
+    
+    form {
         display: flex;
         flex-direction: column;
-      }
+    }
 }
 
 .button {
     justify-content: center;
-    padding-top: 2rem;
+    padding-top: 1rem;
     text-align: center;
+}
+
+.signIn {
+    align-items: center;
+    padding: 0.5rem;
+    display: flex;
+    margin-top: 1rem;
+
+    button {
+        margin-left: 1rem;
+        border: 0;
+        height: 2rem;
+        border-radius: 0.2rem;
+        background-color: var(--brown);
+        width: 120px;
+        cursor: pointer;
+        color: var(--white);
+    }
 }

@@ -13,16 +13,6 @@ class UptadePhaseService {
             throw new Error("Número incorreto!");
         }
 
-        const phaseAlreadyExists = await prismaClient.phase.findFirst({
-            where: {
-                number: number
-            }
-        })
-
-        if (phaseAlreadyExists) {
-            throw new Error("Fase ja existe!");
-        }
-
         const phase = await prismaClient.phase.update({
             where: {
                 id: phase_id

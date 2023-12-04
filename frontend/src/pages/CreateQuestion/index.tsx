@@ -4,6 +4,8 @@ import { setupAPIClient } from "../../services/api"
 import { toast } from "react-toastify"
 import Input from '../../components/Input'
 import Button from '../../components/Button'
+import { Link } from 'react-router-dom'
+import UserService from '../../services/UserService'
 
 interface PhaseProps {
     id: string
@@ -29,7 +31,7 @@ function CreateQuestion() {
     const [text, setText] = useState('')
     const [textIfCorrect, setTextIfCorrect] = useState('')
     const [textIfIncorrect, setTextIfIncorrect] = useState('')
-    const [number, setNumber] = useState<number>(0)
+    const [number, setNumber] = useState<number | undefined>(undefined)
 
     const [phases, setPhases] = useState<PhaseProps[]>([])
     const [phaseSelected, setPhaseSelected] = useState(0)
@@ -116,156 +118,218 @@ function CreateQuestion() {
     async function handleRegister(e: FormEvent) {
         e.preventDefault()
 
-        console.log(imageAvatar);
-        console.log(image_bottom_left);
-        console.log(image_bottom_right);
-        console.log(image_upper_right);
+        if (text === "" || number === undefined || textIfCorrect === "" || textIfIncorrect === "" || alternative_A.text === "" || alternative_B.text === "" || alternative_C.text === "" || alternative_D.text === "") {
+            return toast.warning("Preencha todos os campos!")
+        }
 
-        const response = await apiClient.post('/createQuestion', {
-            text: text,
-            number: number,
-            text_if_correct: textIfCorrect,
-            text_if_incorrect: textIfIncorrect,
-            phase_id: phases[phaseSelected].id,
-            list_alternatives: list_Alternatives,
-            avatar: imageAvatar,
-            image_bottom_left: image_bottom_left,
-            image_bottom_right: image_bottom_right,
-            image_upper_right: image_upper_right
-        })
+        if (checkboxValueA === false && checkboxValueB === false && checkboxValueC === false && checkboxValueD === false) {
+            return toast.warning("Selecione a alternativa verdadeira!")
+        }
 
-        console.log(response.data)
+        try {
+            const response = await apiClient.post('/createQuestion', {
+                text: text,
+                number: number,
+                text_if_correct: textIfCorrect,
+                text_if_incorrect: textIfIncorrect,
+                phase_id: phases[phaseSelected].id,
+                list_alternatives: list_Alternatives,
+                avatar: imageAvatar,
+                image_bottom_left: image_bottom_left,
+                image_bottom_right: image_bottom_right,
+                image_upper_right: image_upper_right
+            }, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
 
-        toast.success("Cadastrado com sucesso!")
+            if (response) {
+
+                setText('');
+                setTextIfCorrect('');
+                setTextIfIncorrect('');
+                setNumber(0);
+                setPhaseSelected(0);
+                setCheckboxValueA(false);
+                setCheckboxValueB(false);
+                setCheckboxValueC(false);
+                setCheckboxValueD(false);
+                setAlternative_A({ letter: 'A', text: '', true_or_false: false });
+                setAlternative_B({ letter: 'B', text: '', true_or_false: false });
+                setAlternative_C({ letter: 'C', text: '', true_or_false: false });
+                setAlternative_D({ letter: 'D', text: '', true_or_false: false });
+                setImageAvatar(null);
+                setImage_upper_right(null);
+                setImage_bottom_right(null);
+                setImage_bottom_left(null);
+
+                toast.success("Cadastrado com sucesso!");
+            }
+        } catch (error) {
+            console.error("Erro ao cadastrar a fase:", error);
+            toast.warning("Questão ja existe!");
+        }
+
 
     }
 
     return (
-        <main className={styles.container}>
 
-            <h1>Cadastrar Questão</h1>
+        <>
+            <main className={styles.main}>
 
-            <div className={styles.createQuestion}>
+                <h1>Cadastrar Questão</h1>
 
-                <form onSubmit={handleRegister} encType='multipart/form-data'>
+                <div className={styles.createQuestion}>
 
-                    <select value={phaseSelected} onChange={handleChangePhase}>
-                        {phases.map((item, index) => {
-                            return (
-                                <option key={item.id} value={index}>{item.number}</option>
-                            )
-                        })}
-                    </select>
+                    <form onSubmit={handleRegister} encType='multipart/form-data'>
 
-                    <Input
-                        placeholder='Digite o texto da fase...'
-                        type='text'
-                        value={text}
-                        onChange={(e) => setText(e.target.value)}
-                    />
+                        <div className={styles.phase}>
+                            <span>Fase:</span>
+                            <select value={phaseSelected} onChange={handleChangePhase}>
+                                {phases.map((item, index) => {
+                                    return (
+                                        <option key={item.id} value={index}>{item.number}</option>
+                                    )
+                                })}
+                            </select>
+                        </div>
 
-                    <Input
-                        placeholder='Digite o texto caso o usuário acerte...'
-                        type='text'
-                        value={textIfCorrect}
-                        onChange={(e) => setTextIfCorrect(e.target.value)}
-                    />
+                        <Input
+                            placeholder='Digite o texto da fase...'
+                            type='text'
+                            value={text}
+                            onChange={(e) => setText(e.target.value)} />
 
-                    <Input
-                        placeholder='Digite o texto caso o usuário erre...'
-                        type='text'
-                        value={textIfIncorrect}
-                        onChange={(e) => setTextIfIncorrect(e.target.value)}
-                    />
+                        <Input
+                            placeholder='Digite o texto caso o usuário acerte...'
+                            type='text'
+                            value={textIfCorrect}
+                            onChange={(e) => setTextIfCorrect(e.target.value)} />
 
-                    <Input
-                        placeholder='Digite o numero da questão...'
-                        type='text'
-                        value={number}
-                        onChange={(e) => setNumber(parseInt(e.target.value))}
-                    />
+                        <Input
+                            placeholder='Digite o texto caso o usuário erre...'
+                            type='text'
+                            value={textIfIncorrect}
+                            onChange={(e) => setTextIfIncorrect(e.target.value)} />
 
-                    <Input
-                        placeholder='Digite a alternativa A...'
-                        type='text'
-                        value={alternative_A.text}
-                        onChange={(e) => addTextA('text', e.target.value)}
-                    />
+                        <Input
+                            placeholder='Digite o numero da questão...'
+                            type='text'
+                            value={number}
+                            onChange={(e) => setNumber(parseInt(e.target.value))} />
 
-                    <Input
-                        name='A'
-                        type='checkbox'
-                        checked={checkboxValueA}
-                        onChange={handleCheckboxChangeA}
-                    />
+                        <div className={styles.alternative}>
+                            <Input
+                                placeholder='Digite a alternativa A...'
+                                type='text'
+                                value={alternative_A.text}
+                                onChange={(e) => addTextA('text', e.target.value)} />
+                            <Input
+                                name='checbox'
+                                type='radio'
+                                checked={checkboxValueA}
+                                onChange={handleCheckboxChangeA} />
 
-                    <Input
-                        placeholder='Digite a alternativa B...'
-                        type='text'
-                        value={alternative_B.text}
-                        onChange={(e) => addTextB('text', e.target.value)}
-                    />
+                        </div>
 
-                    <Input
-                        name='B'
-                        type='checkbox'
-                        checked={checkboxValueB}
-                        onChange={handleCheckboxChangeB}
-                    />
 
-                    <Input
-                        placeholder='Digite a alternativa C...'
-                        type='text'
-                        value={alternative_C?.text}
-                        onChange={(e) => addTextC('text', e.target.value)}
-                    />
+                        <div className={styles.alternative}>
 
-                    <Input
-                        name='C'
-                        type='checkbox'
-                        checked={checkboxValueC}
-                        onChange={handleCheckboxChangeC}
-                    />
+                            <Input
+                                placeholder='Digite a alternativa B...'
+                                type='text'
+                                value={alternative_B.text}
+                                onChange={(e) => addTextB('text', e.target.value)} />
+                            <Input
+                                name='checbox'
+                                type='radio'
+                                checked={checkboxValueB}
+                                onChange={handleCheckboxChangeB} />
+                        </div>
 
-                    <Input
-                        placeholder='Digite a alternativa D...'
-                        type='text'
-                        value={alternative_D?.text}
-                        onChange={(e) => addTextD('text', e.target.value)}
-                    />
+                        <div className={styles.alternative}>
 
-                    <Input
-                        name='D'
-                        type='checkbox'
-                        checked={checkboxValueD}
-                        onChange={handleCheckboxChangeD}
-                    />
+                            <Input
+                                placeholder='Digite a alternativa C...'
+                                type='text'
+                                value={alternative_C?.text}
+                                onChange={(e) => addTextC('text', e.target.value)} />
 
-                    <Input
-                        type='file'
-                        onChange={(e) => setImageAvatar(e.target.files ? e.target.files[0] : null)}
-                    />
+                            <Input
 
-                    <Input
-                        type='file'
-                        onChange={(e) => setImage_bottom_left(e.target.files ? e.target.files[0] : null)}
-                    />
+                                name='checbox'
+                                type='radio'
+                                checked={checkboxValueC}
+                                onChange={handleCheckboxChangeC} />
 
-                    <Input
-                        type='file'
-                        onChange={(e) => setImage_bottom_right(e.target.files ? e.target.files[0] : null)}
-                    />
+                        </div>
 
-                    <Input
-                        type='file'
-                        onChange={(e) => setImage_upper_right(e.target.files ? e.target.files[0] : null)}
-                    />
 
-                    <Button type='submit'>Cadastar</Button>
+                        <div className={styles.alternative}>
 
-                </form>
-            </div>
-        </main>
+                            <Input
+                                placeholder='Digite a alternativa D...'
+                                type='text'
+                                value={alternative_D?.text}
+                                onChange={(e) => addTextD('text', e.target.value)} />
+
+                            <Input
+
+                                name='checbox'
+                                type='radio'
+                                checked={checkboxValueD}
+                                onChange={handleCheckboxChangeD} />
+
+                        </div>
+
+                        <div className={styles.avatar}>
+                            <label htmlFor="">Avatar:</label>
+                            <Input
+                                type='file'
+                                onChange={(e) => setImageAvatar(e.target.files ? e.target.files[0] : null)}
+                                placeholder='Avatar' />
+                        </div>
+
+
+                        <div className={styles.supDir}>
+                            <label htmlFor="">Imagem superior direita:</label>
+                            <Input
+                                type='file'
+                                onChange={(e) => setImage_upper_right(e.target.files ? e.target.files[0] : null)} />
+                        </div>
+
+
+                        <div className={styles.infDir}>
+                            <label htmlFor="">Imagem inferior direita:</label>
+                            <Input
+                                type='file'
+                                onChange={(e) => setImage_bottom_right(e.target.files ? e.target.files[0] : null)} />
+                        </div>
+
+
+                        <div className={styles.infLeft}>
+                            <label htmlFor="">Imagem inferior esquerda:</label>
+                            <Input
+                                type='file'
+                                onChange={(e) => setImage_bottom_left(e.target.files ? e.target.files[0] : null)} />
+                        </div>
+
+                        <div className={styles.buttons}>
+
+                            <Link to="/homeAdmin" className={styles.backButton}><Button>Voltar</Button></Link>
+
+                            <Button type='submit'>Cadastar</Button>
+
+                        </div>
+
+
+
+                    </form>
+                </div>
+            </main>
+        </>
     )
 }
 

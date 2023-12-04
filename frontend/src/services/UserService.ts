@@ -1,8 +1,6 @@
 import { toast } from "react-toastify"
 import { setupAPIClient } from "./api"
 import { apiClient } from "./apiClient"
-import { Navigate, useNavigate } from "react-router-dom"
-import { log } from "console"
 
 type UserProps = {
     nickname: string
@@ -15,7 +13,10 @@ type AdminProps = {
     isAdmin: boolean
 }
 
+
 class UserService {
+
+
 
     async login(dados: UserProps) {
 
@@ -34,6 +35,18 @@ class UserService {
 
     isAuthenticated() {
         return sessionStorage.getItem("token") != undefined ? true : false
+    }
+
+    logOut() {
+
+        try {
+            sessionStorage.removeItem("token")
+
+        } catch (error) {
+            console.log("erro ao deslogar");
+        }
+
+        return window.location.reload();
     }
 
     async isAdmin() {

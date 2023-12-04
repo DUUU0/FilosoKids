@@ -4,7 +4,7 @@ import { ListTextIfIncorrectService } from "../../services/question/ListTextIfIn
 class ListTextIfIncorrectController {
     async handle(req: Request, res: Response) {
 
-        const { question_id } = req.body
+        const question_id = req.params.id
 
         const listTextIfIncorrectService = new ListTextIfIncorrectService()
 

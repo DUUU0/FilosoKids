@@ -6,6 +6,7 @@ import { DefaultRoutes } from './defaultRoutes'
 import { AdminRoute } from './adminRoutes'
 
 import Header from '../components/Header'
+import HeaderAdmin from '../components/HeaderAdmin'
 import Footer from '../components/Footer'
 
 import SignIn from '../pages/SignIn'
@@ -21,36 +22,58 @@ import TextIfCorrect from '../pages/TextIfCorrect'
 import TextIfIncorrect from '../pages/TextIfIncorrect'
 import UpdateRemovePhase from '../pages/UpdateRemovePhase'
 import UpdatePhase from '../pages/UpdatePhase'
+import UpdateRemoveQuestion from '../pages/UpdateRemoveQuestion'
+import UpdateQuestion from '../pages/UpdateQuestion'
+import HomeHelp from '../pages/HomeHelp'
+import FormHelp from '../pages/FormHelp'
+import HelpOne from '../pages/HelpOne'
+import HelpTwo from '../pages/HelpTwo'
+import HelpLogin from '../pages/HelpLogin'
 
 function RoutesApp() {
     return (
         <BrowserRouter>
 
-            <Header />
-
             <Routes>
 
                 <Route path='/' element={
-                    <DefaultRoutes>
-                        <SignIn />
-                    </DefaultRoutes>}
+                    <>
+                        <Header />
+                        <DefaultRoutes>
+                            <SignIn />
+                        </DefaultRoutes></>}
+                />
+
+                <Route path='/helpLogin' element={
+                    <>
+                        <Header />
+                        <DefaultRoutes>
+                            <HelpLogin />
+                        </DefaultRoutes></>}
                 />
 
                 <Route path='/signUp' element={
-                    <DefaultRoutes>
-                        <SignUp />
-                    </DefaultRoutes>}
+                    <>
+                        <Header /><DefaultRoutes>
+                            <SignUp />
+                        </DefaultRoutes></>}
                 />
 
                 <Route path='/bemVindo' element={
-                    <PrivateRoute>
-                        <Welcome />
-                    </PrivateRoute>} />
+                    <>
+                        <Header />
+                        <PrivateRoute>
+                            <Welcome />
+                        </PrivateRoute></>}
+                />
 
                 <Route path='/tutorial' element={
-                    <PrivateRoute>
-                        <Tutorial />
-                    </PrivateRoute>} />
+                    <>
+                        <Header />
+                        <PrivateRoute>
+                            <Tutorial />
+                        </PrivateRoute></>}
+                />
 
                 <Route path='/home' element={
                     <PrivateRoute>
@@ -58,21 +81,29 @@ function RoutesApp() {
                     </PrivateRoute>}
                 >
                     <Route index element={<Home />} />
-                    <Route path='questions' element={<Questions />} />
+                    <Route path='homeHelp' element={<HomeHelp />} />
+                    <Route path='formHelp' element={<FormHelp />} />
+                    <Route path='helpOne' element={<HelpOne />} />
+                    <Route path='helptwo' element={<HelpTwo />} />
+                    <Route path='questions/:user_id' element={<Questions />} />
                     <Route path='questions/textIfCorrect/:id' element={<TextIfCorrect />} />
                     <Route path='questions/textIfIncorrect/:id' element={<TextIfIncorrect />} />
                 </Route>
 
                 <Route path='/homeAdmin' element={
-                    <PrivateRoute>
-                        <Outlet />
-                    </PrivateRoute>}
+                    <>
+                        <HeaderAdmin />
+                        <PrivateRoute>
+                            <Outlet />
+                        </PrivateRoute></>}
                 >
                     <Route index element={<HomeAdmin />} />
                     <Route path='createPhase' element={<CreatePhase />} />
                     <Route path='createQuestion' element={<CreateQuestion />} />
                     <Route path='updateRemovePhase' element={<UpdateRemovePhase />} />
                     <Route path='updatePhase/:id' element={<UpdatePhase />} />
+                    <Route path='updateRemoveQuestion' element={<UpdateRemoveQuestion />} />
+                    <Route path='updateQuestion/:id' element={<UpdateQuestion />} />
                 </Route>
 
             </Routes>

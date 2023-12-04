@@ -5,6 +5,7 @@ CREATE TABLE "users" (
     "password" TEXT NOT NULL,
     "nickname" TEXT NOT NULL,
     "is_admin" BOOLEAN NOT NULL,
+    "tutorial_completed" BOOLEAN NOT NULL,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );

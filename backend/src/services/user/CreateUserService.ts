@@ -6,10 +6,11 @@ interface UserRequest {
     password: string
     nickname: string
     isAdmin: boolean
+    tutorial_concluded: boolean
 }
 
 class CreateUserService {
-    async execute({ name, password, nickname, isAdmin }: UserRequest) {
+    async execute({ name, password, nickname }: UserRequest) {
 
         const userAlreadyExists = await prismaClient.user.findFirst({
             where: {
@@ -28,13 +29,15 @@ class CreateUserService {
                 name: name,
                 nickname: nickname,
                 password: passwordHash,
-                is_admin: false
+                is_admin: false,
+                tutorial_completed: false
             },
             select: {
                 id: true,
                 name: true,
                 nickname: true,
-                is_admin: true
+                is_admin: true,
+                tutorial_completed: true
             }
         })
 

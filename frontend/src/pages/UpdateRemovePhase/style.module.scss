@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.text {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  color: var(--brown);
+}
+
+.phasestable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px auto;
+  background-color: var(--gray-100);
+  max-width: 50rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.phasestable th,
+.phasestable td {
+  border: 0.1rem solid black;
+  padding: 8px;
+  text-align: left;
+  max-width: 50rem;
+  text-align: center;
+}
+
+.phasestable th {
+  background-color: var(--gray-100);
+}
+
+.editbutton,
+.removebutton,
+.backbutton {
+  padding: 8px 16px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.removebutton {
+  margin-left: 1rem;
+  border: 0;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  background-color: var(--brown);
+  width: 180px;
+  cursor: pointer;
+  color: var(--white);
+}
+
+.backbutton {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.backButtonContainer {
+  margin-bottom: 4rem;
+
+}

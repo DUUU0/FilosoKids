@@ -1,15 +1,43 @@
-import { Request, Response } from "express";
-import { ListAllQuestionService } from "../../controllers/question/ListAllQuestionService";
+import prismaClient from "../../prisma";
 
-class ListAllQuestionController {
-    async handle(req: Request, res: Response) {
+interface UserProps {
+    user_id: string
+}
 
-        const listAllQuestionService = new ListAllQuestionService()
+class ListAllQuestionService {
+    async execute({ user_id }: UserProps) {
 
-        const question = await listAllQuestionService.execute()
+        const questions = await prismaClient.question.findMany({
+            
+            select: {
+                id: true,
+                number: true,
+                text: true,
+                already_answered: true,
+                alternatives: {
+                    select: {
+                        id: true,
+                        letter: true,
+                        text: true,
+                        true_or_false: true
+                    }
+                },
+                phase: {
+                    select: {
+                        name: true,
+                        number: true
+                    }
 
-        return res.json(question)
+                }
+            },
+            orderBy: {
+                number: "asc"
+            }
+        })
+
+        return questions
+
     }
 }
 
-export { ListAllQuestionController }
+export { ListAllQuestionService }

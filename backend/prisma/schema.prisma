@@ -16,6 +16,7 @@ model User {
   password String
   nickname String  @unique
   is_admin Boolean
+  tutorial_completed Boolean
 
   forms     Form[]
   questions User_has_Questions[]

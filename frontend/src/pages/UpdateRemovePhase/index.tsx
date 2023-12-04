@@ -4,13 +4,13 @@ import { Link } from "react-router-dom"
 import Button from "../../components/Button"
 import Input from "../../components/Input"
 import { toast } from "react-toastify"
+import styles from './style.module.scss'
 
 interface PhaseProps {
     id: string
     number: number
     name: string
 }
-
 
 function UpdateRemovePhase() {
 
@@ -33,8 +33,6 @@ function UpdateRemovePhase() {
 
     async function handleRemove(id: string) {
 
-        console.log(id);
-
         const response = await apiClient.delete(`/deletePhase/${id}`)
 
         if (response) {
@@ -44,34 +42,55 @@ function UpdateRemovePhase() {
 
     }
 
-
     return (
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Number</th>
-            </tr>
-            {phases.map((phases) => {
-                return (
-                    <>
-                        <tr key={phases.id}>
-                            <td key={phases.id}>{phases.name}</td>
-                            <td>{phases.number}</td>
-                            <Link to={`/homeAdmin/updatePhase/${phases.id}`}><Button>Editar</Button></Link>
-                            <Input
-                                type="submit"
-                                value="Remover"
-                                onClick={() => handleRemove(phases.id)}
-                            />
+        <>
+            <div className={styles.container}>
+
+                <div className={styles.text}>
+                    <h1>Editar/ Remover Fase</h1>
+                </div>
+
+
+                <table className={styles.phasestable}>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Numero</th>
+                            <th>Editar</th>
+                            <th>Remover</th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        {phases.map((phase) => (
+                            <tr key={phase.id}>
+                                <td>{phase.name.slice(0, 20)}</td>
+                                <td>{phase.number}</td>
+                                <td>
+                                    <Link to={`/homeAdmin/updatePhase/${phase.id}`}>
+                                        <Button className={styles.editbutton}>Editar</Button>
+                                    </Link>
+                                </td>
+                                <td>
+                                    <Input
+                                        type="submit"
+                                        value="Remover"
+                                        onClick={() => handleRemove(phase.id)}
+                                        className={styles.removebutton}
+                                    />
 
-                    </>
-                )
-            })}
-        </table>
-
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <Link to="/homeAdmin" className={styles.backButtonContainer}>
+                    <Button className={styles.backbutton}>Voltar</Button>
+                </Link>
+            </div>
+        </>
 
     )
+
 }
 
 export default UpdateRemovePhase

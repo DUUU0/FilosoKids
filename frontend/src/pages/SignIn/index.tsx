@@ -1,6 +1,6 @@
 import styles from './styles.module.scss'
 
-import { useState, FormEvent, useContext, useEffect } from 'react'
+import { useState, FormEvent } from 'react'
 
 import Button from '../../components/Button'
 import Input from '../../components/Input'
@@ -8,7 +8,7 @@ import Input from '../../components/Input'
 import { toast } from 'react-toastify'
 
 import UserService from '../../services/UserService'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function SignIn() {
 
@@ -23,24 +23,34 @@ function SignIn() {
     async function handleLogin(e: FormEvent) {
         e.preventDefault()
 
-        const formulario = {
-            nickname,
-            password
+        if (nickname === "" || password === "") {
+            return toast.warning("Preencha todos os campos!")
         }
 
-        const response = await userService.login(formulario)
+        try {
+            const formulario = {
+                nickname,
+                password
+            }
 
-        if (response.tutorial_completed) {
-            if (response.isAdmin) {
-                toast.success("Logado com sucesso!")
-                navigate("/homeAdmin")
+            const response = await userService.login(formulario)
+
+            if (response.tutorial_completed) {
+                if (response.isAdmin) {
+                    toast.success("Logado com sucesso!")
+                    navigate("/homeAdmin")
+                } else {
+                    toast.success("Logado com sucesso!")
+                    navigate("/home")
+                }
             } else {
                 toast.success("Logado com sucesso!")
-                navigate("/")
+                navigate("/bemVindo")
             }
-        } else {
-            toast.success("Logado com sucesso!")
-            navigate("/bemVindo")
+
+        } catch (error) {
+            console.error("Erro ao logar:", error);
+            toast.warning("Apelido/Senha incorreto!");
         }
 
     }
@@ -49,6 +59,8 @@ function SignIn() {
         <main className={styles.containerCenter}>
 
             <h1>Login</h1>
+
+            <hr color='black'></hr>
 
             <div className={styles.login}>
 
@@ -72,8 +84,16 @@ function SignIn() {
                         <Button type='submit'>Login</Button>
                     </div>
 
-
                 </form>
+            </div>
+
+            <hr color='black'></hr>
+
+            <div className={styles.signUp}>
+
+                <p>Ainda não tem conta?</p>
+                <Link to="/signUp"><button>Cadastrar-se</button></Link>
+
             </div>
 
         </main>

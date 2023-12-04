@@ -8,7 +8,7 @@ import Input from '../../components/Input'
 import { setupAPIClient } from '../../services/api'
 
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function SignUp() {
 
@@ -16,7 +16,7 @@ function SignUp() {
 
     const [nickname, setNickname] = useState('')
 
-    const [password,  setPassword] = useState('')
+    const [password, setPassword] = useState('')
 
     const [confirmPassword, setConfirmPassword] = useState('')
 
@@ -31,28 +31,37 @@ function SignUp() {
         }
 
         if (password != confirmPassword) {
-            toast.warning("Senhas não batem")
+            toast.warning("Senhas diferentes!")
             return
         }
 
-        const apiClient = setupAPIClient()
+        try {
+            const apiClient = setupAPIClient()
 
-        const response = await apiClient.post('/createUser', {
-            name: name,
-            nickname: nickname,
-            password: password
-        })
+            const response = await apiClient.post('/createUser', {
+                name: name,
+                nickname: nickname,
+                password: password
+            })
+    
+            if (response) {
+                navigate("/")
+                toast.success("Cadastrado com sucesso!")
+            }
 
-        if (response) {
-            navigate("/")
-            toast.success("Cadastrado com sucesso!")
+        } catch (error) {
+            console.error("Erro ao cadastrar:", error);
+            toast.warning("Apelido já existe!");
         }
+
     }
 
     return (
         <main className={styles.containerCenter}>
 
             <h1>Cadastar</h1>
+
+            <hr color='black'></hr>
 
             <div className={styles.login}>
                 <form onSubmit={handleRegister}>
@@ -89,6 +98,13 @@ function SignUp() {
                     </div>
 
                 </form>
+            </div>
+
+            <hr color='black'></hr>
+
+            <div className={styles.signIn}>
+                <p>Já possui conta?</p>
+                <Link to="/"><button>Login</button></Link>
             </div>
 
         </main>

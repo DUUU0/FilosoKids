@@ -8,16 +8,6 @@ interface PhaseRequest {
 class CreatePhaseService {
     async execute({ number, name }: PhaseRequest) {
 
-        const phaseAlreadyExists = await prismaClient.phase.findFirst({
-            where: {
-                number: number
-            }
-        })
-
-        if (phaseAlreadyExists) {
-            throw new Error("Fase ja existe!");
-        }
-
         const phase = await prismaClient.phase.create({
             data: {
                 number: number,

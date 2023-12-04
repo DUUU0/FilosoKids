@@ -21,58 +21,75 @@
         display: inline-block;
         position: relative;
     }
-
-}
-
-.headerInformation {
-    padding: 0.5rem;
-    position: absolute;
-    width: 16rem;
-    left: 50%;
-    margin-left: -8rem;
-
-    span {     
-        position: absolute;
-        width: 5rem;
-        left: 50%;
-        margin-left: -2.5rem; 
-        font-size: 1.3rem;
-        vertical-align: middle;
-    }
-
-    .progressBarContainer {
-        padding-top: 2rem;
-
-        .backProgressBar {
-            position: absolute;
-            height: 1.3rem;
-            background-color: var(--white);
-            width: 15rem;
-            border-radius: 1rem;
-            left: 50%;
-            margin-left: -7.5rem;
-
-            .progressBar {
-                position: absolute;
-                height: 1rem;
-                background-color: var(--brown);
-                width: 14.5rem;
-                border-radius: 1rem;
-                left: 50%;
-                margin-left: -7.25rem;
-                bottom: 50%;
-                margin-bottom: -0.5rem;
-            }
-        }
-    }
 }
 
 .headerNav {
     height: 5rem;
     padding: 1rem 1rem;
     align-items: center;
+    transition: all 0.3s ease;
 
     img {
         cursor: pointer;
     }
+
+}
+
+
+.dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    background-color: var(--gray-100);
+    min-height: 10rem;
+    width: 10rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -10px; 
+        right: 30px; 
+        border-width: 0 8px 8px;
+        border-style: solid;
+        border-color: transparent transparent var(--gray-100);
+        
+    }
+
+    button {
+        margin-top: 4rem;
+        border: 0;
+        height: 2rem;
+        border-radius: 0.2rem;
+        background-color: var(--brown);
+        width: 120px;
+        cursor: pointer;
+        color: var(--white);
+    }
+
+    & p,
+    & a {
+        margin: 0;
+        text-decoration: none;
+        display: block;
+        color: var(--black);
+        transition: background-color 0.3s ease;
+        text-align: center; 
+
+        &:hover {
+            background-color: var(--gray-200); /* Change background color on hover */
+        }
+    }
+}
+
+.headerNav:hover .dropdown {
+    display: block;
 }

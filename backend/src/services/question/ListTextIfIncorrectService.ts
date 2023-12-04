@@ -13,7 +13,14 @@ class ListTextIfIncorrectService {
                 id: question_id
             },
             select: {
-                text_if_incorrect: true
+                text_if_incorrect: true,
+                id: true,
+                phase: {
+                    select: {
+                        number: true
+                    }
+                },
+                number: true
             }
         })
 
